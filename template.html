@@ -1,0 +1,38 @@
+<html>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+}
+th {
+    text-align: left;
+}
+</style>
+<body>
+<table style="width:100%">
+<tr>
+  <th>Hostname</th>
+  <th>Updated</th>
+  <th>Platops_Support</th>
+  <th>Applications</th>
+  <th>Pager_Playbooks</th>
+  <th>Puppet_Modules</th>
+  <th>Purpose</th>
+</tr>
+{{range .}}
+<tr>
+<td>{{.Hostname}}</td>
+<td>{{.Updated}}</td>
+<td>{{.Platops_Support}}</td>
+<td>{{.Applications}}</td>
+<td>{{.Pager_Playbooks}}</td>
+<td>{{.Puppet_Modules}}</td>
+<td>{{.Purpose}}</td>
+</tr>
+{{end}}
+</table>
+</body>
+</html>
