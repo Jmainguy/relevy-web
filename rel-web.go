@@ -9,7 +9,7 @@ import (
     "github.com/ghodss/yaml"
     "io/ioutil"
     "time"
-    "net/http"
+    "github.com/gin-gonic/gin"
 )
 
 type Server struct {
@@ -107,8 +107,11 @@ func main() {
         }
     }()
     // Http stuff
-    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        http.ServeFile(w, r, "./servers.html")
-    })
-    http.ListenAndServe(":8080", nil)
+    router := gin.Default()
+    router.StaticFile("/sorttable.js", "./sorttable.js")
+    router.StaticFile("/", "./servers.html")
+
+    // Listen and server on 0.0.0.0:8080
+    router.Run(":8080")
+
 }
