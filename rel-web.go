@@ -88,16 +88,28 @@ func main() {
 
             // Request a socket connection
             sessionCopy := mongoSession.Copy()
-            // Close session whn goroutine exits
-            // Add into Mongo
             coll := sessionCopy.DB(mongo_db).C("relevy")
-            err2 := coll.Find(nil).All(&server)
-            check(err2)
+            // Ensure documents will die after 1 hour of not checking in
+            index := mgo.Index{
+                Key: []string{"Updated"},
+                ExpireAfter: (time.Hour * 1),
+            }
+            err = coll.EnsureIndex(index)
+            if err != nil {
+                err = coll.DropIndex("Updated")
+                check(err)
+                err = coll.EnsureIndex(index)
+                check(err)
+            }
+            // Gather all results from mongo
+            err = coll.Find(nil).All(&server)
+            check(err)
 
             // Close session
             mongoSession.Close()
             sessionCopy.Close()
 
+            // Generate servers.html from template
             var doc bytes.Buffer
             t, _ := template.ParseFiles("template.html")
             t.Execute(&doc, server)
