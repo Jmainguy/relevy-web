@@ -111,17 +111,17 @@ func main() {
 
             // Generate servers.html from template
             var doc bytes.Buffer
-            t, _ := template.ParseFiles("template.html")
+            t, _ := template.ParseFiles("/opt/rweb/template.html")
             t.Execute(&doc, server)
             s := doc.String()
-            Tofile("servers.html", s)
+            Tofile("/opt/rweb/servers.html", s)
             time.Sleep(5 * time.Second)
         }
     }()
     // Http stuff
     router := gin.Default()
-    router.StaticFile("/sorttable.js", "./sorttable.js")
-    router.StaticFile("/", "./servers.html")
+    router.StaticFile("/sorttable.js", "/opt/rweb/sorttable.js")
+    router.StaticFile("/", "/opt/rweb/servers.html")
 
     // Listen and server on 0.0.0.0:8080
     router.Run(":8080")

@@ -1,0 +1,7 @@
+---
+
+mongo_db: relevy
+#mongo_user: gcm
+#mongo_passwd: craycray
+#mongo_authdb: admin
+mongo_addr: localhost:32768
